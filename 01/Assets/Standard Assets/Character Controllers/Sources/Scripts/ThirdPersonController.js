@@ -6,6 +6,7 @@ public var idleAnimation : AnimationClip;
 public var walkAnimation : AnimationClip;
 public var runAnimation : AnimationClip;
 public var jumpPoseAnimation : AnimationClip;
+public var fallAnimation: AnimationClip;
 
 public var walkMaxAnimationSpeed : float = 0.75;
 public var trotMaxAnimationSpeed : float = 1.0;
