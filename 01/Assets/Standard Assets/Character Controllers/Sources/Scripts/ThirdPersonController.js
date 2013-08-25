@@ -6,13 +6,17 @@ public var idleAnimation : AnimationClip;
 public var walkAnimation : AnimationClip;
 public var runAnimation : AnimationClip;
 public var jumpPoseAnimation : AnimationClip;
+
 public var fallAnimation: AnimationClip;
+public var punchAnimation: AnimationClip;
 
 public var walkMaxAnimationSpeed : float = 0.75;
 public var trotMaxAnimationSpeed : float = 1.0;
 public var runMaxAnimationSpeed : float = 1.0;
 public var jumpAnimationSpeed : float = 1.15;
 public var landAnimationSpeed : float = 1.0;
+
+public var punchAnimationSpeed : float = 1.0;
 
 private var _animation : Animation;
 
@@ -287,6 +291,12 @@ function DidJump ()
 	_characterState = CharacterState.Jumping;
 }
 
+function Punch() {
+	_animation[punchAnimation.name].speed = punchAnimationSpeed;
+	_animation[punchAnimation.name].wrapMode = WrapMode.ClampForever;
+	_animation.CrossFade(punchAnimation.name);
+}
+
 function Update() {
 	
 	if (!isControllable)
@@ -301,6 +311,10 @@ function Update() {
 	}
 
 	UpdateSmoothedMovementDirection();
+	
+	if(Input.GetKey(KeyCode.P)) {
+		Punch();
+	}
 	
 	// Apply gravity
 	// - extra power jump modifies gravity
