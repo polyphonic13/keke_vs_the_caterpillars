@@ -300,8 +300,9 @@ function Punch() {
 	if(_canPunch) {
 	
 		_animation[punchAnimation.name].speed = punchAnimationSpeed;
-		_animation[punchAnimation.name].wrapMode = WrapMode.ClampForever;
+		_animation[punchAnimation.name].wrapMode = WrapMode.Once;
 		_animation.CrossFade(punchAnimation.name);
+		yield;
 	}
 }
 
