@@ -95,6 +95,8 @@ private var lastGroundedTime = 0.0;
 
 private var isControllable = true;
 
+private var _canPunch = true; 
+
 function Awake ()
 {
 	moveDirection = transform.TransformDirection(Vector3.forward);
@@ -124,6 +126,9 @@ public var jumpPoseAnimation : AnimationClip;
 	if(!jumpPoseAnimation && canJump) {
 		_animation = null;
 		Debug.Log("No jump animation found and the character has canJump enabled. Turning off animations.");
+	}
+	if(!punchAnimation) {
+		_canPunch = false;
 	}
 			
 }
@@ -292,9 +297,12 @@ function DidJump ()
 }
 
 function Punch() {
-	_animation[punchAnimation.name].speed = punchAnimationSpeed;
-	_animation[punchAnimation.name].wrapMode = WrapMode.ClampForever;
-	_animation.CrossFade(punchAnimation.name);
+	if(_canPunch) {
+	
+		_animation[punchAnimation.name].speed = punchAnimationSpeed;
+		_animation[punchAnimation.name].wrapMode = WrapMode.ClampForever;
+		_animation.CrossFade(punchAnimation.name);
+	}
 }
 
 function Update() {
