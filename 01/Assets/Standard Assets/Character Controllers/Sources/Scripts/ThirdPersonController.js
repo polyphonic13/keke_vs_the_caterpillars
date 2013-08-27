@@ -298,12 +298,20 @@ function DidJump ()
 
 function Punch() {
 	if(_canPunch) {
-	
+		Debug.Log("punch length = " + _animation[punchAnimation.name].length + ", running length " + _animation[idleAnimation.name].length);	
 		_animation[punchAnimation.name].speed = punchAnimationSpeed;
 		_animation[punchAnimation.name].wrapMode = WrapMode.Once;
-		_animation.CrossFade(punchAnimation.name);
+		// _animation.CrossFade(punchAnimation.name);
+		_animation.Play(punchAnimation.name);
 		yield;
 	}
+}
+
+function Jump() {
+	_animation[jumpPoseAnimation.name].speed = jumpAnimationSpeed;
+	_animation[jumpPoseAnimation.name].wrapMode = WrapMode.Once;
+	_animation.Play(jumpPoseAnimation.name);
+	yield;
 }
 
 function Update() {
@@ -345,6 +353,8 @@ function Update() {
 	if(_animation) {
 		if(_characterState == CharacterState.Jumping) 
 		{
+			Jump();
+/*
 			if(!jumpingReachedApex) {
 				_animation[jumpPoseAnimation.name].speed = jumpAnimationSpeed;
 				_animation[jumpPoseAnimation.name].wrapMode = WrapMode.ClampForever;
@@ -354,6 +364,7 @@ function Update() {
 				_animation[jumpPoseAnimation.name].wrapMode = WrapMode.ClampForever;
 				_animation.CrossFade(jumpPoseAnimation.name);				
 			}
+*/
 		} 
 		else 
 		{
