@@ -3,6 +3,8 @@
 @script RequireComponent(CharacterController)
 
 public var idleAnimation : AnimationClip;
+public var crouchAnimation: AnimationClip;
+public var crawlAnimation: AnimationClip;
 public var walkAnimation : AnimationClip;
 public var runAnimation : AnimationClip;
 public var jumpPoseAnimation : AnimationClip;
@@ -10,6 +12,7 @@ public var jumpPoseAnimation : AnimationClip;
 public var fallAnimation: AnimationClip;
 public var punchAnimation: AnimationClip;
 
+public var crawlAnimationSpeed : float = 1;
 public var walkMaxAnimationSpeed : float = 0.75;
 public var trotMaxAnimationSpeed : float = 1.0;
 public var runMaxAnimationSpeed : float = 1.0;
@@ -51,7 +54,8 @@ var trotAfterSeconds = 3.0;
 
 var canJump = true;
 
-private var jumpRepeatTime = 0.05;
+//private var jumpRepeatTime = 0.05;
+private var jumpRepeatTime = 1;
 private var jumpTimeout = 0.15;
 private var groundedTimeout = 0.25;
 
@@ -96,6 +100,7 @@ private var lastGroundedTime = 0.0;
 private var isControllable = true;
 
 private var _canPunch = true; 
+private var _isCrouching = false;
 
 function Awake ()
 {
@@ -296,6 +301,14 @@ function DidJump ()
 	_characterState = CharacterState.Jumping;
 }
 
+function Jump() {
+	_animation[jumpPoseAnimation.name].speed = jumpAnimationSpeed;
+	_animation[jumpPoseAnimation.name].wrapMode = WrapMode.Once;
+	_animation.Play(jumpPoseAnimation.name);
+	yield;
+}
+
+
 function Punch() {
 	if(_canPunch) {
 		Debug.Log("punch length = " + _animation[punchAnimation.name].length + ", running length " + _animation[idleAnimation.name].length);	
@@ -307,13 +320,14 @@ function Punch() {
 	}
 }
 
-function Jump() {
-	_animation[jumpPoseAnimation.name].speed = jumpAnimationSpeed;
-	_animation[jumpPoseAnimation.name].wrapMode = WrapMode.Once;
-	_animation.Play(jumpPoseAnimation.name);
-	yield;
-}
+function Crouch() {
+		// _animation[crouchAnimation.name].speed = punchAnimationSpeed;
+		_animation[crouchAnimation.name].wrapMode = WrapMode.Once;
+		// _animation.CrossFade(punchAnimation.name);
+		_animation.Play(crouchAnimation.name);
+		yield;
 
+}
 function Update() {
 	
 	if (!isControllable)
@@ -331,6 +345,15 @@ function Update() {
 	
 	if(Input.GetKey(KeyCode.P)) {
 		Punch();
+	} else if(Input.GetKey(KeyCode.C)) {
+//		_isCrouching = !_isCrouching;
+//		Crouch();
+		if(!_isCrouching) {
+			_isCrouching = true;
+		} else {
+			_isCrouching = false;
+		}
+		Debug.Log("C was pressed, _isCrouching = " + _isCrouching);
 	}
 	
 	// Apply gravity
@@ -365,9 +388,15 @@ function Update() {
 				_animation.CrossFade(jumpPoseAnimation.name);				
 			}
 */
-		} 
-		else 
-		{
+		} else if(_isCrouching) {
+			Debug.Log("going to play crouching animation");
+			if(controller.velocity.sqrMagnitude < 0.1) {
+				_animation.Play(crouchAnimation.name);
+			} else {
+				_animation[crawlAnimation.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, crawlAnimationSpeed);
+				_animation.CrossFade(crawlAnimation.name);
+			}
+		} else {
 			if(controller.velocity.sqrMagnitude < 0.1) {
 				_animation.CrossFade(idleAnimation.name);
 			}
