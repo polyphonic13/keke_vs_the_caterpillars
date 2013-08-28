@@ -2,6 +2,8 @@
 // Require a character controller to be attached to the same game object
 @script RequireComponent(CharacterController)
 
+public var defaultAnimation: AnimationClip;
+
 public var idleAnimation : AnimationClip;
 public var crouchAnimation: AnimationClip;
 public var crawlAnimation: AnimationClip;
@@ -121,6 +123,10 @@ public var walkAnimation : AnimationClip;
 public var runAnimation : AnimationClip;
 public var jumpPoseAnimation : AnimationClip;	
 	*/
+	if(!defaultAnimation) {
+		_animation = null;
+		Debug.Log("No default animation found. Turning off animations.");
+	}
 	if(!idleAnimation) {
 		_animation = null;
 		Debug.Log("No idle animation found. Turning off animations.");
@@ -316,7 +322,7 @@ function Jump() {
 
 function Punch() {
 	if(_canPunch) {
-		Debug.Log("punch length = " + _animation[punchAnimation.name].length + ", running length " + _animation[idleAnimation.name].length);	
+		Debug.Log("punch length = " + _animation[punchAnimation.name].length + ", running length " + _animation[runAnimationLower.name].length);	
 		_animation[punchAnimation.name].speed = punchAnimationSpeed;
 		_animation[punchAnimation.name].wrapMode = WrapMode.Once;
 		_animation[runAnimationLower.name].layer = 2;
@@ -350,7 +356,7 @@ function Update() {
 
 	UpdateSmoothedMovementDirection();
 	
-	if(Input.GetKey(KeyCode.P)) {
+	if(Input.GetKey(KeyCode.B)) {
 		_isPunching = true;
 		Punch();
 	} else if(Input.GetKey(KeyCode.C)) {
@@ -382,6 +388,10 @@ function Update() {
 	
 	// ANIMATION sector
 	if(_animation) {
+		// play default animation which is used as bottom layer
+		_animation[defaultAnimation.name].layer = 1;
+		_animation.Play(defaultAnimation.name);
+		
 		if(_characterState == CharacterState.Jumping) 
 		{
 			Jump();
@@ -399,9 +409,12 @@ function Update() {
 		} else if(_isCrouching) {
 			Debug.Log("going to play crouching animation");
 			if(controller.velocity.sqrMagnitude < 0.1) {
-				_animation.Play(crouchAnimation.name);
+				_animation[crouchAnimation.name].blendMode = AnimationBlendMode.Additive;
+				_animation[crouchAnimation.name].layer = 2;
+				_animation.CrossFade(crouchAnimation.name);
 			} else {
 				_animation[crawlAnimation.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, crawlAnimationSpeed);
+			_animation[crawlAnimation.name].layer = 2;
 				_animation.CrossFade(crawlAnimation.name);
 			}
 		} else {
@@ -412,32 +425,38 @@ function Update() {
 			{
 				if(_characterState == CharacterState.Running) {
 					_animation[runAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, runMaxAnimationSpeed);
-					_animation[runAnimationLower.name].layer = 1;
-					_animation.Play(runAnimationLower.name);
+					_animation[runAnimationLower.name].blendMode = AnimationBlendMode.Additive;
+					_animation[runAnimationLower.name].layer = 2;
+					_animation.CrossFade(runAnimationLower.name);
 					if(!IsPunching()) {	
 						_animation[runAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, runMaxAnimationSpeed);
-						_animation[runAnimationLower.name].layer = 2;
-						_animation.Play(runAnimationUpper.name);
+						_animation[runAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
+						_animation[runAnimationUpper.name].layer = 3;
+						_animation.CrossFade(runAnimationUpper.name);
 					}
 				}
 				else if(_characterState == CharacterState.Trotting) {
 					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, trotMaxAnimationSpeed);
-					_animation[runAnimationLower.name].layer = 1;
-					_animation.Play(walkAnimationLower.name);	
+					_animation[walkAnimationLower.name].blendMode = AnimationBlendMode.Additive;
+					_animation[walkAnimationLower.name].layer = 2;
+					_animation.CrossFade(walkAnimationLower.name);	
 					if(!IsPunching()) {	
 						_animation[walkAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, trotMaxAnimationSpeed);
-						_animation[runAnimationLower.name].layer = 2;
-						_animation.Play(walkAnimationUpper.name);
+						_animation[walkAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
+						_animation[walkAnimationUpper.name].layer = 3;
+						_animation.CrossFade(walkAnimationUpper.name);
 					}
 				}
 				else if(_characterState == CharacterState.Walking) {
 					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
-					_animation[runAnimationLower.name].layer = 1;
-					_animation.Play(walkAnimationLower.name);	
+					_animation[walkAnimationLower.name].blendMode = AnimationBlendMode.Additive;
+					_animation[walkAnimationLower.name].layer = 2;
+					_animation.CrossFade(walkAnimationLower.name);	
 					if(!IsPunching()) {	
 						_animation[walkAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
-						_animation[runAnimationLower.name].layer = 2;
-						_animation.Play(walkAnimationUpper.name);
+						_animation[walkAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
+						_animation[walkAnimationUpper.name].layer = 3;
+						_animation.CrossFade(walkAnimationUpper.name);
 					}	
 				}
 				
