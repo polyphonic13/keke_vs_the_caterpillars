@@ -5,8 +5,12 @@
 public var idleAnimation : AnimationClip;
 public var crouchAnimation: AnimationClip;
 public var crawlAnimation: AnimationClip;
-public var walkAnimation : AnimationClip;
-public var runAnimation : AnimationClip;
+
+public var walkAnimationUpper : AnimationClip;
+public var walkAnimationLower : AnimationClip;
+public var runAnimationUpper : AnimationClip;
+public var runAnimationLower : AnimationClip;
+
 public var jumpPoseAnimation : AnimationClip;
 
 public var fallAnimation: AnimationClip;
@@ -100,6 +104,7 @@ private var lastGroundedTime = 0.0;
 private var isControllable = true;
 
 private var _canPunch = true; 
+private var _isPunching = false;
 private var _isCrouching = false;
 
 function Awake ()
@@ -120,11 +125,11 @@ public var jumpPoseAnimation : AnimationClip;
 		_animation = null;
 		Debug.Log("No idle animation found. Turning off animations.");
 	}
-	if(!walkAnimation) {
+	if(!walkAnimationLower) {
 		_animation = null;
 		Debug.Log("No walk animation found. Turning off animations.");
 	}
-	if(!runAnimation) {
+	if(!runAnimationLower) {
 		_animation = null;
 		Debug.Log("No run animation found. Turning off animations.");
 	}
@@ -314,8 +319,10 @@ function Punch() {
 		Debug.Log("punch length = " + _animation[punchAnimation.name].length + ", running length " + _animation[idleAnimation.name].length);	
 		_animation[punchAnimation.name].speed = punchAnimationSpeed;
 		_animation[punchAnimation.name].wrapMode = WrapMode.Once;
+		_animation[runAnimationLower.name].layer = 2;
 		// _animation.CrossFade(punchAnimation.name);
 		_animation.Play(punchAnimation.name);
+		_isPunching = false;
 		yield;
 	}
 }
@@ -344,6 +351,7 @@ function Update() {
 	UpdateSmoothedMovementDirection();
 	
 	if(Input.GetKey(KeyCode.P)) {
+		_isPunching = true;
 		Punch();
 	} else if(Input.GetKey(KeyCode.C)) {
 //		_isCrouching = !_isCrouching;
@@ -403,16 +411,34 @@ function Update() {
 			else 
 			{
 				if(_characterState == CharacterState.Running) {
-					_animation[runAnimation.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, runMaxAnimationSpeed);
-					_animation.CrossFade(runAnimation.name);	
+					_animation[runAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, runMaxAnimationSpeed);
+					_animation[runAnimationLower.name].layer = 1;
+					_animation.Play(runAnimationLower.name);
+					if(!IsPunching()) {	
+						_animation[runAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, runMaxAnimationSpeed);
+						_animation[runAnimationLower.name].layer = 2;
+						_animation.Play(runAnimationUpper.name);
+					}
 				}
 				else if(_characterState == CharacterState.Trotting) {
-					_animation[walkAnimation.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, trotMaxAnimationSpeed);
-					_animation.CrossFade(walkAnimation.name);	
+					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, trotMaxAnimationSpeed);
+					_animation[runAnimationLower.name].layer = 1;
+					_animation.Play(walkAnimationLower.name);	
+					if(!IsPunching()) {	
+						_animation[walkAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, trotMaxAnimationSpeed);
+						_animation[runAnimationLower.name].layer = 2;
+						_animation.Play(walkAnimationUpper.name);
+					}
 				}
 				else if(_characterState == CharacterState.Walking) {
-					_animation[walkAnimation.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
-					_animation.CrossFade(walkAnimation.name);	
+					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
+					_animation[runAnimationLower.name].layer = 1;
+					_animation.Play(walkAnimationLower.name);	
+					if(!IsPunching()) {	
+						_animation[walkAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
+						_animation[runAnimationLower.name].layer = 2;
+						_animation.Play(walkAnimationUpper.name);
+					}	
 				}
 				
 			}
@@ -463,6 +489,14 @@ function GetSpeed () {
 
 function IsJumping () {
 	return jumping;
+}
+
+function IsPunching() {
+	return _isPunching; 
+}
+
+function IsCrouching() {
+	return _isCrouching; 
 }
 
 function IsGrounded () {
