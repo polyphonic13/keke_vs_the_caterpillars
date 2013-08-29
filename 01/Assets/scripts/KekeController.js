@@ -270,6 +270,7 @@ function ApplyJumping ()
 		if (canJump && Time.time < lastJumpButtonTime + jumpTimeout) {
 			verticalSpeed = CalculateJumpVerticalSpeed (jumpHeight);
 			SendMessage("DidJump", SendMessageOptions.DontRequireReceiver);
+			
 		}
 	}
 }
@@ -317,7 +318,7 @@ function DidJump ()
 
 function Jump() {
 	_animation[jumpPoseAnimation.name].speed = jumpAnimationSpeed;
-	_animation[jumpPoseAnimation.name].wrapMode = WrapMode.Once;
+	_animation[jumpPoseAnimation.name].wrapMode = WrapMode.ClampForever;
 	_animation.Play(jumpPoseAnimation.name);
 	yield;
 }
