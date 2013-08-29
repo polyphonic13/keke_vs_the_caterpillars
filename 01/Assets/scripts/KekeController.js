@@ -21,6 +21,7 @@ public var jumpPoseAnimation : AnimationClip;
 public var fallAnimation: AnimationClip;
 public var punchAnimation: AnimationClip;
 
+public var idleMaxAnimationSpeed : float = 1;
 public var crawlAnimationSpeed : float = 1;
 public var walkMaxAnimationSpeed : float = 0.75;
 public var trotMaxAnimationSpeed : float = 1.0;
@@ -424,11 +425,17 @@ function Update() {
 			}
 		} else {
 			if(controller.velocity.sqrMagnitude < 0.1) {
-				Debug.Log("idle state, upper = " + idleAnimationUpper.name);
-				//_animation[idleAnimationLower.name].layer = 1;
+				Debug.Log("idle state, lower = " + idleAnimationLower.name);
+				// _animation[idleAnimationLower.name].layer = 1;
+				// _animation[idleAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, idleMaxAnimationSpeed);
 				_animation.Play(idleAnimationLower.name);
-				_animation[idleAnimationUpper.name].layer = 3;
-				_animation.Play(idleAnimationUpper.name);
+				if(!IsPunching()) {	
+					Debug.Log("idle state, upper = " + idleAnimationUpper.name);
+					_animation[idleAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, idleMaxAnimationSpeed);
+					_animation[idleAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
+					_animation[idleAnimationUpper.name].layer = 10;
+					_animation.Play(idleAnimationUpper.name);
+				}
 			}
 			else 
 			{
