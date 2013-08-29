@@ -4,10 +4,11 @@
 
 public var defaultAnimation: AnimationClip;
 
-public var idleAnimation : AnimationClip;
 public var crouchAnimation: AnimationClip;
 public var crawlAnimation: AnimationClip;
 
+public var idleAnimationUpper : AnimationClip;
+public var idleAnimationLower: AnimationClip;
 public var walkAnimationUpper : AnimationClip;
 public var walkAnimationLower : AnimationClip;
 public var runAnimationUpper : AnimationClip;
@@ -127,7 +128,7 @@ public var jumpPoseAnimation : AnimationClip;
 		_animation = null;
 		Debug.Log("No default animation found. Turning off animations.");
 	}
-	if(!idleAnimation) {
+	if(!idleAnimationLower) {
 		_animation = null;
 		Debug.Log("No idle animation found. Turning off animations.");
 	}
@@ -357,7 +358,7 @@ function Update() {
 
 	UpdateSmoothedMovementDirection();
 	
-	if(Input.GetKey(KeyCode.B)) {
+	if(Input.GetKey(KeyCode.V)) {
 		_isPunching = true;
 		Punch();
 	} else if(Input.GetKey(KeyCode.C)) {
@@ -420,15 +421,18 @@ function Update() {
 			}
 		} else {
 			if(controller.velocity.sqrMagnitude < 0.1) {
-				_animation[idleAnimation.name].layer = 1;
-				_animation.CrossFade(idleAnimation.name);
+				//_animation[idleAnimationLower.name].layer = 1;
+				_animation.CrossFade(idleAnimationLower.name);
+				_animation[idleAnimationUpper.name].layer = 3;
+				_animation.CrossFade(idleAnimationUpper.name);
 			}
 			else 
 			{
 				if(_characterState == CharacterState.Running) {
+					Debug.Log("running state, runAnimationLower = " + runAnimationLower.name);
 					_animation[runAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, runMaxAnimationSpeed);
 					// _animation[runAnimationLower.name].blendMode = AnimationBlendMode.Additive;
-					_animation[runAnimationLower.name].layer = 1;
+					//_animation[runAnimationLower.name].layer = 1;
 					_animation.CrossFade(runAnimationLower.name);
 					if(!IsPunching()) {	
 						_animation[runAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, runMaxAnimationSpeed);
@@ -438,9 +442,10 @@ function Update() {
 					}
 				}
 				else if(_characterState == CharacterState.Trotting) {
+					Debug.Log("running state, runAnimationLower = " + runAnimationLower.name);
 					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, trotMaxAnimationSpeed);
 					// _animation[walkAnimationLower.name].blendMode = AnimationBlendMode.Additive;
-					_animation[walkAnimationLower.name].layer = 1;
+					//_animation[walkAnimationLower.name].layer = 1;
 					_animation.CrossFade(walkAnimationLower.name);	
 					if(!IsPunching()) {	
 						_animation[walkAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, trotMaxAnimationSpeed);
@@ -451,8 +456,9 @@ function Update() {
 				}
 				else if(_characterState == CharacterState.Walking) {
 					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
+					Debug.Log("walking state, runAnimationLower = " + walkAnimationUpper.name);
 					// _animation[walkAnimationLower.name].blendMode = AnimationBlendMode.Additive;
-					_animation[walkAnimationLower.name].layer = 1;
+					//_animation[walkAnimationLower.name].layer = 1;
 					_animation.CrossFade(walkAnimationLower.name);	
 					if(!IsPunching()) {	
 						_animation[walkAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
