@@ -2,6 +2,8 @@
 // Require a character controller to be attached to the same game object
 @script RequireComponent(CharacterController)
 
+public var tempAnimation: AnimationClip;
+
 public var defaultAnimation: AnimationClip;
 
 public var crouchAnimation: AnimationClip;
@@ -413,58 +415,59 @@ function Update() {
 			if(controller.velocity.sqrMagnitude < 0.1) {
 				_animation[crouchAnimation.name].blendMode = AnimationBlendMode.Additive;
 				_animation[crouchAnimation.name].layer = 1;
-				_animation.CrossFade(crouchAnimation.name);
+				_animation.Play(crouchAnimation.name);
 			} else {
 				_animation[crawlAnimation.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, crawlAnimationSpeed);
 				_animation[crawlAnimation.name].layer = 1;
-				_animation.CrossFade(crawlAnimation.name);
+				_animation.Play(crawlAnimation.name);
 			}
 		} else {
 			if(controller.velocity.sqrMagnitude < 0.1) {
+				Debug.Log("idle state, upper = " + idleAnimationUpper.name);
 				//_animation[idleAnimationLower.name].layer = 1;
-				_animation.CrossFade(idleAnimationLower.name);
+				_animation.Play(idleAnimationLower.name);
 				_animation[idleAnimationUpper.name].layer = 3;
-				_animation.CrossFade(idleAnimationUpper.name);
+				_animation.Play(idleAnimationUpper.name);
 			}
 			else 
 			{
 				if(_characterState == CharacterState.Running) {
-					Debug.Log("running state, runAnimationLower = " + runAnimationLower.name);
+					Debug.Log("running state, runAnimationUpper = " + runAnimationUpper.name);
 					_animation[runAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, runMaxAnimationSpeed);
 					// _animation[runAnimationLower.name].blendMode = AnimationBlendMode.Additive;
 					//_animation[runAnimationLower.name].layer = 1;
-					_animation.CrossFade(runAnimationLower.name);
+					_animation.Play(runAnimationLower.name);
 					if(!IsPunching()) {	
 						_animation[runAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, runMaxAnimationSpeed);
 						_animation[runAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
-						_animation[runAnimationUpper.name].layer = 3;
-						_animation.CrossFade(runAnimationUpper.name);
+						_animation[runAnimationUpper.name].layer = 10;
+						_animation.Play(runAnimationUpper.name);
 					}
 				}
 				else if(_characterState == CharacterState.Trotting) {
-					Debug.Log("running state, runAnimationLower = " + runAnimationLower.name);
+					Debug.Log("trotting state, runAnimationLower = " + walkAnimationUpper.name);
 					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, trotMaxAnimationSpeed);
 					// _animation[walkAnimationLower.name].blendMode = AnimationBlendMode.Additive;
 					//_animation[walkAnimationLower.name].layer = 1;
-					_animation.CrossFade(walkAnimationLower.name);	
+					_animation.Play(walkAnimationLower.name);	
 					if(!IsPunching()) {	
 						_animation[walkAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, trotMaxAnimationSpeed);
 						_animation[walkAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
-						_animation[walkAnimationUpper.name].layer = 3;
-						_animation.CrossFade(walkAnimationUpper.name);
+						_animation[walkAnimationUpper.name].layer = 10;
+						_animation.Play(walkAnimationUpper.name);
 					}
 				}
 				else if(_characterState == CharacterState.Walking) {
-					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
 					Debug.Log("walking state, runAnimationLower = " + walkAnimationUpper.name);
+					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
 					// _animation[walkAnimationLower.name].blendMode = AnimationBlendMode.Additive;
 					//_animation[walkAnimationLower.name].layer = 1;
-					_animation.CrossFade(walkAnimationLower.name);	
+					_animation.Play(walkAnimationLower.name);	
 					if(!IsPunching()) {	
 						_animation[walkAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
 						_animation[walkAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
-						_animation[walkAnimationUpper.name].layer = 3;
-						_animation.CrossFade(walkAnimationUpper.name);
+						_animation[walkAnimationUpper.name].layer = 10;
+						_animation.Play(walkAnimationUpper.name);
 					}	
 				}
 				
