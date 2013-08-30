@@ -2,7 +2,6 @@
 // Require a character controller to be attached to the same game object
 @script RequireComponent(CharacterController)
 
-public var tempAnimation: AnimationClip;
 
 public var defaultAnimation: AnimationClip;
 
@@ -39,6 +38,7 @@ enum CharacterState {
 	Trotting = 2,
 	Running = 3,
 	Jumping = 4,
+	Crouching = 5
 }
 
 private var _characterState : CharacterState;
@@ -412,10 +412,10 @@ function Update() {
 				_animation.CrossFade(jumpPoseAnimation.name);				
 			}
 */
-		} else if(_isCrouching) {
+		} else if(IsCrouching()) {
 			Debug.Log("going to play crouching animation");
 			if(controller.velocity.sqrMagnitude < 0.1) {
-				_animation[crouchAnimation.name].blendMode = AnimationBlendMode.Additive;
+				//_animation[crouchAnimation.name].blendMode = AnimationBlendMode.Additive;
 				_animation[crouchAnimation.name].layer = 1;
 				_animation.Play(crouchAnimation.name);
 			} else {
