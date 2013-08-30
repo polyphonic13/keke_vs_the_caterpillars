@@ -44,16 +44,16 @@ enum CharacterState {
 private var _characterState : CharacterState;
 
 // The speed when walking
-var walkSpeed = 2.0;
+var walkSpeed = 3.0;
 // after trotAfterSeconds of walking we trot with trotSpeed
-var trotSpeed = 4.0;
+var trotSpeed = 5.0;
 // when pressing "Fire3" button (cmd) we start running
-var runSpeed = 6.0;
+var runSpeed = 10.0;
 
 var inAirControlAcceleration = 3.0;
 
 // How high do we jump when pressing jump and letting go immediately
-var jumpHeight = 0.5;
+var jumpHeight = 1;
 
 // The gravity for the character
 var gravity = 20.0;
