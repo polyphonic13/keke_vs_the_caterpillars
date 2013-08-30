@@ -111,7 +111,11 @@ private var isControllable = true;
 
 private var _canPunch = true; 
 private var _isPunching = false;
+
 private var _isCrouching = false;
+private var _lastCrouchTime = -1;
+private var _crouchRepeatTime = 1;
+
 
 function Awake ()
 {
@@ -324,6 +328,26 @@ function Jump() {
 	yield;
 }
 
+function CheckCustomActionInput() {
+
+	if(Input.GetKey(KeyCode.C)) {
+		// don't let the C button be pressed repeatedly:
+		if(Time.time - _crouchRepeatTime > _lastCrouchTime) {
+			_lastCrouchTime = Time.time;
+			if(_isCrouching == false) {
+				_isCrouching = true;
+			} else {
+				_isCrouching = false;
+			}
+			Debug.Log("C was pressed, _isCrouching = " + _isCrouching);
+		}
+	} else if(Input.GetKey(KeyCode.V)) {
+		_isPunching = true;
+		Punch(); 	
+	}
+
+	yield;
+}
 
 function Punch() {
 	if(_canPunch) {
@@ -348,6 +372,7 @@ function Crouch() {
 
 }
 function Update() {
+	CheckCustomActionInput();
 	
 	if (!isControllable)
 	{
@@ -361,20 +386,6 @@ function Update() {
 	}
 
 	UpdateSmoothedMovementDirection();
-	
-	if(Input.GetKey(KeyCode.V)) {
-		_isPunching = true;
-		Punch();
-	} else if(Input.GetKey(KeyCode.C)) {
-//		_isCrouching = !_isCrouching;
-//		Crouch();
-		if(!_isCrouching) {
-			_isCrouching = true;
-		} else {
-			_isCrouching = false;
-		}
-		Debug.Log("C was pressed, _isCrouching = " + _isCrouching);
-	}
 	
 	// Apply gravity
 	// - extra power jump modifies gravity
@@ -413,10 +424,10 @@ function Update() {
 			}
 */
 		} else if(IsCrouching()) {
-			Debug.Log("going to play crouching animation");
+			// Debug.Log("going to play crouching animation");
 			if(controller.velocity.sqrMagnitude < 0.1) {
 				//_animation[crouchAnimation.name].blendMode = AnimationBlendMode.Additive;
-				_animation[crouchAnimation.name].layer = 1;
+				// _animation[crouchAnimation.name].layer = 1;
 				_animation.Play(crouchAnimation.name);
 			} else {
 				_animation[crawlAnimation.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, crawlAnimationSpeed);
@@ -425,12 +436,12 @@ function Update() {
 			}
 		} else {
 			if(controller.velocity.sqrMagnitude < 0.1) {
-				Debug.Log("idle state, lower = " + idleAnimationLower.name);
+				// Debug.Log("idle state, lower = " + idleAnimationLower.name);
 				// _animation[idleAnimationLower.name].layer = 1;
 				// _animation[idleAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, idleMaxAnimationSpeed);
 				_animation.Play(idleAnimationLower.name);
 				if(!IsPunching()) {	
-					Debug.Log("idle state, upper = " + idleAnimationUpper.name);
+					// Debug.Log("idle state, upper = " + idleAnimationUpper.name);
 					_animation[idleAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, idleMaxAnimationSpeed);
 					_animation[idleAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
 					_animation[idleAnimationUpper.name].layer = 10;
