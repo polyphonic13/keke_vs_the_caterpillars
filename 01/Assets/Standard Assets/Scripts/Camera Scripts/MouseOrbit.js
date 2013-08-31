@@ -1,5 +1,5 @@
 var target : Transform;
-var distance = 10.0;
+var distance = 15.0;
 
 var xSpeed = 250.0;
 var ySpeed = 120.0;
@@ -9,6 +9,9 @@ var yMaxLimit = 80;
 
 private var x = 0.0;
 private var y = 0.0;
+
+public var minDistance = 2;
+public var maxDistance = 20;
 
 @script AddComponentMenu("Camera-Control/Mouse Orbit")
 
@@ -34,6 +37,16 @@ function LateUpdate () {
         
         transform.rotation = rotation;
         transform.position = position;
+        
+        if(Input.GetKey(KeyCode.Period)) {
+        	if(distance > minDistance) {
+        		distance--;
+        	}
+        } else if(Input.GetKey(KeyCode.Comma)) {
+        	if(distance < maxDistance) {
+        		distance++;
+        	}
+        }
     }
 }
 
