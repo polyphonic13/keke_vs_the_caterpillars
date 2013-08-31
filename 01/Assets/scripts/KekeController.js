@@ -123,7 +123,7 @@ function Awake ()
 	
 	_animation = GetComponent(Animation);
 	if(!_animation)
-		Debug.Log("The character you would like to control doesn't have animations. Moving her might look weird.");
+		// Debug.Log("The character you would like to control doesn't have animations. Moving her might look weird.");
 	
 	/*
 public var idleAnimation : AnimationClip;
@@ -133,23 +133,23 @@ public var jumpPoseAnimation : AnimationClip;
 	*/
 	if(!defaultAnimation) {
 		_animation = null;
-		Debug.Log("No default animation found. Turning off animations.");
+		// Debug.Log("No default animation found. Turning off animations.");
 	}
 	if(!idleAnimationLower) {
 		_animation = null;
-		Debug.Log("No idle animation found. Turning off animations.");
+		// Debug.Log("No idle animation found. Turning off animations.");
 	}
 	if(!walkAnimationLower) {
 		_animation = null;
-		Debug.Log("No walk animation found. Turning off animations.");
+		// Debug.Log("No walk animation found. Turning off animations.");
 	}
 	if(!runAnimationLower) {
 		_animation = null;
-		Debug.Log("No run animation found. Turning off animations.");
+		// Debug.Log("No run animation found. Turning off animations.");
 	}
 	if(!jumpPoseAnimation && canJump) {
 		_animation = null;
-		Debug.Log("No jump animation found and the character has canJump enabled. Turning off animations.");
+		// Debug.Log("No jump animation found and the character has canJump enabled. Turning off animations.");
 	}
 	if(!punchAnimation) {
 		_canPunch = false;
@@ -334,11 +334,13 @@ function CheckCustomActionInput() {
 		// don't let the C button be pressed repeatedly:
 		if(Time.time - _crouchRepeatTime > _lastCrouchTime) {
 			_lastCrouchTime = Time.time;
-			if(_isCrouching == false) {
+			_isCrouching = !_isCrouching;
+/*			if(_isCrouching == false) {
 				_isCrouching = true;
 			} else {
 				_isCrouching = false;
 			}
+*/
 			Debug.Log("C was pressed, _isCrouching = " + _isCrouching);
 		}
 	} else if(Input.GetKey(KeyCode.V)) {
@@ -351,7 +353,7 @@ function CheckCustomActionInput() {
 
 function Punch() {
 	if(_canPunch) {
-		Debug.Log("punch length = " + _animation[punchAnimation.name].length + ", running length " + _animation[runAnimationLower.name].length);	
+		// Debug.Log("punch length = " + _animation[punchAnimation.name].length + ", running length " + _animation[runAnimationLower.name].length);	
 		_animation[punchAnimation.name].speed = punchAnimationSpeed;
 		_animation[punchAnimation.name].wrapMode = WrapMode.Once;
 		_animation[punchAnimation.name].blendMode = AnimationBlendMode.Additive;
@@ -424,7 +426,7 @@ function Update() {
 			}
 */
 		} else if(IsCrouching()) {
-			// Debug.Log("going to play crouching animation");
+			// // Debug.Log("going to play crouching animation");
 			if(controller.velocity.sqrMagnitude < 0.1) {
 				//_animation[crouchAnimation.name].blendMode = AnimationBlendMode.Additive;
 				// _animation[crouchAnimation.name].layer = 1;
@@ -436,12 +438,12 @@ function Update() {
 			}
 		} else {
 			if(controller.velocity.sqrMagnitude < 0.1) {
-				// Debug.Log("idle state, lower = " + idleAnimationLower.name);
+				// // Debug.Log("idle state, lower = " + idleAnimationLower.name);
 				// _animation[idleAnimationLower.name].layer = 1;
 				// _animation[idleAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, idleMaxAnimationSpeed);
 				_animation.Play(idleAnimationLower.name);
 				if(!IsPunching()) {	
-					// Debug.Log("idle state, upper = " + idleAnimationUpper.name);
+					// // Debug.Log("idle state, upper = " + idleAnimationUpper.name);
 					_animation[idleAnimationUpper.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, idleMaxAnimationSpeed);
 					_animation[idleAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
 					_animation[idleAnimationUpper.name].layer = 10;
@@ -451,7 +453,7 @@ function Update() {
 			else 
 			{
 				if(_characterState == CharacterState.Running) {
-					Debug.Log("running state, runAnimationUpper = " + runAnimationUpper.name);
+					// Debug.Log("running state, runAnimationUpper = " + runAnimationUpper.name);
 					_animation[runAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, runMaxAnimationSpeed);
 					// _animation[runAnimationLower.name].blendMode = AnimationBlendMode.Additive;
 					//_animation[runAnimationLower.name].layer = 1;
@@ -464,7 +466,7 @@ function Update() {
 					}
 				}
 				else if(_characterState == CharacterState.Trotting) {
-					Debug.Log("trotting state, runAnimationLower = " + walkAnimationUpper.name);
+					// Debug.Log("trotting state, runAnimationLower = " + walkAnimationUpper.name);
 					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, trotMaxAnimationSpeed);
 					// _animation[walkAnimationLower.name].blendMode = AnimationBlendMode.Additive;
 					//_animation[walkAnimationLower.name].layer = 1;
@@ -477,7 +479,7 @@ function Update() {
 					}
 				}
 				else if(_characterState == CharacterState.Walking) {
-					Debug.Log("walking state, runAnimationLower = " + walkAnimationUpper.name);
+					// Debug.Log("walking state, runAnimationLower = " + walkAnimationUpper.name);
 					_animation[walkAnimationLower.name].speed = Mathf.Clamp(controller.velocity.magnitude, 0.0, walkMaxAnimationSpeed);
 					// _animation[walkAnimationLower.name].blendMode = AnimationBlendMode.Additive;
 					//_animation[walkAnimationLower.name].layer = 1;
@@ -527,7 +529,7 @@ function Update() {
 
 function OnControllerColliderHit (hit : ControllerColliderHit )
 {
-//	Debug.DrawRay(hit.point, hit.normal);
+//	// Debug.DrawRay(hit.point, hit.normal);
 	if (hit.moveDirection.y > 0.01) 
 		return;
 }
