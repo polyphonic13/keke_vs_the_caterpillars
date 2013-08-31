@@ -20,12 +20,12 @@ public var jumpPoseAnimation : AnimationClip;
 public var fallAnimation: AnimationClip;
 public var punchAnimation: AnimationClip;
 
-public var idleMaxAnimationSpeed : float = 1;
+public var idleMaxAnimationSpeed : float = 1.5;
 public var crawlAnimationSpeed : float = 1;
-public var walkMaxAnimationSpeed : float = 0.75;
-public var trotMaxAnimationSpeed : float = 1.0;
+public var walkMaxAnimationSpeed : float = 1.5;
+public var trotMaxAnimationSpeed : float = 2;
 public var runMaxAnimationSpeed : float = 1.0;
-public var jumpAnimationSpeed : float = 1.15;
+public var jumpAnimationSpeed : float = 0.5;
 public var landAnimationSpeed : float = 1.0;
 
 public var punchAnimationSpeed : float = 1.0;
@@ -53,7 +53,7 @@ var runSpeed = 10.0;
 var inAirControlAcceleration = 3.0;
 
 // How high do we jump when pressing jump and letting go immediately
-var jumpHeight = 1;
+public var jumpHeight : float = 1.5;
 
 // The gravity for the character
 var gravity = 20.0;
