@@ -8,9 +8,14 @@ public class Slingshot : MonoBehaviour {
 	public AnimationClip cockedAnimation;
 	public AnimationClip fireAnimation;
 	
+	public float cockedAnimationSpeed = 1;
+	public float fireAnimationSpeed = 1;
+	
 	Animation _animation;
 	bool _hasAnimations = false;
 	bool _canFire = false;
+	float _lastFireTime = -1;
+	float _fireRepeatTime = 0.75f; // make sure that the slingshot doesn't fire too rapidly
 	// Use this for initialization
 	void Awake () {
 		_animation = GetComponent<Animation>();
@@ -25,24 +30,28 @@ public class Slingshot : MonoBehaviour {
 		}
 		if(_animation) {
 			_hasAnimations = true;
+			Debug.Log("Slingshot/Awake, _hasAnimations = " + _hasAnimations + ", _animation = " + _animation + ", _animation[cocked] = " + cockedAnimation.name);
+			//_animation.Play(defaultAnimation.name); 
+			_animation.Play("ss_default");
+			_animation[cockedAnimation.name].speed = cockedAnimationSpeed;
+			_animation[fireAnimation.name].speed = fireAnimationSpeed;
 		}
-		Debug.Log("Slingshot/Awake, _hasAnimations = " + _hasAnimations + ", _animation = " + _animation + ", _animation[cocked] = " + cockedAnimation.name);
-		_animation.Play(defaultAnimation.name);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(collected && _hasAnimations) {
 			if(Input.GetKey(KeyCode.F)) {
-				Debug.Log("Slingshot play cocked, cocked = " + cockedAnimation.name + ", _animation = " + _animation);
-				_animation.Play(cockedAnimation.name);
-				_canFire = true;
-			}
-			if(Input.GetKey(KeyCode.G)) {
-				if(_canFire) {
-					Debug.Log("Slingshot play fire");
-					_animation.Play(fireAnimation.name);
-					_canFire = false;
+				if(Time.time - _lastFireTime > _fireRepeatTime) {
+					_lastFireTime = Time.time;
+					/*
+					Debug.Log("Slingshot play cocked, _canFire = " + _canFire);
+					if(!_canFire) {
+						StartCoroutine(Cock());
+					} else {
+	*/					StartCoroutine(Fire());
+						//_animation.Play(cockedAnimation.name);
+					// }
 				}
 			}
 		}
@@ -57,4 +66,15 @@ public class Slingshot : MonoBehaviour {
 		}
 	}
 
+	IEnumerator Cock() {
+		_animation.Play(cockedAnimation.name);
+		_canFire = true;
+		yield return true;
+	}
+	
+	IEnumerator Fire() {
+		_animation.Play(fireAnimation.name);
+		_canFire = false;
+		yield return true;
+	}
 }

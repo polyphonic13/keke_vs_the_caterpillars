@@ -11,7 +11,7 @@ private var x = 0.0;
 private var y = 0.0;
 
 public var minDistance = 2;
-public var maxDistance = 20;
+public var maxDistance = 30;
 
 @script AddComponentMenu("Camera-Control/Mouse Orbit")
 
