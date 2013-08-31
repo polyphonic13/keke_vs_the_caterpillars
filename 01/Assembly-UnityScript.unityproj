@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\scripts\AnimationTest.js" />
      <Compile Include="Assets\scripts\KekeController.js" />
   </ItemGroup>
   <ItemGroup>
