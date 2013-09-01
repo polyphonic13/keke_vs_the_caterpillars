@@ -343,9 +343,11 @@ function CheckCustomActionInput() {
 */
 			Debug.Log("C was pressed, _isCrouching = " + _isCrouching);
 		}
+/*
 	} else if(Input.GetKey(KeyCode.V)) {
 		_isPunching = true;
 		Punch(); 	
+*/
 	}
 
 	yield;

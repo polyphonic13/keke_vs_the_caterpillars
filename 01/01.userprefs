@@ -1,10 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../../unity/game01/Assets/scripts/OpenCloseParent.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Standard Assets/Scripts/Camera Scripts/MouseOrbit.js">
     <Files>
-      <File FileName="../../../unity/game01/Assets/scripts/OpenCloseChild.cs" Line="32" Column="2" />
-      <File FileName="../../../unity/game01/Assets/scripts/OpenCloseParent.cs" Line="1" Column="1" />
-      <File FileName="../../../unity/game01/Assets/scripts/LockableChild.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/KekeController.js" Line="1" Column="1" />
+      <File FileName="Assets/scripts/Slingshot.cs" Line="1" Column="1" />
+      <File FileName="Assets/Standard Assets/Scripts/Camera Scripts/MouseOrbit.js" Line="12" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

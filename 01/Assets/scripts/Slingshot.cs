@@ -16,8 +16,14 @@ public class Slingshot : MonoBehaviour {
 	bool _canFire = false;
 	float _lastFireTime = -1;
 	float _fireRepeatTime = 0.75f; // make sure that the slingshot doesn't fire too rapidly
+	
+	SlingshotBullet _bullet;
+	float _bulletSpeed = 10;
+	// Bullet _bullet;
+	
 	// Use this for initialization
 	void Awake () {
+		_bullet = GetComponent<SlingshotBullet>();
 		_animation = GetComponent<Animation>();
 		if(!defaultAnimation) {
 			_animation = null;
@@ -36,11 +42,12 @@ public class Slingshot : MonoBehaviour {
 			_animation[cockedAnimation.name].speed = cockedAnimationSpeed;
 			_animation[fireAnimation.name].speed = fireAnimationSpeed;
 		}
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(collected && _hasAnimations) {
+//		if(collected && _hasAnimations) {
 			if(Input.GetKey(KeyCode.F)) {
 				if(Time.time - _lastFireTime > _fireRepeatTime) {
 					_lastFireTime = Time.time;
@@ -54,7 +61,7 @@ public class Slingshot : MonoBehaviour {
 					// }
 				}
 			}
-		}
+//		}
 	}
 	
 	void OnTriggerEnter(Collider target) {
@@ -74,6 +81,12 @@ public class Slingshot : MonoBehaviour {
 	
 	IEnumerator Fire() {
 		_animation.Play(fireAnimation.name);
+		
+		SlingshotBullet clone;
+		clone = Instantiate(_bullet, transform.position, transform.rotation) as SlingshotBullet;
+		// clone.velocity = this.transform.TransformDirection (Vector3.forward * _bulletSpeed);
+		Debug.Log("Slingshot/Fire, clone = " + clone);
+
 		_canFire = false;
 		yield return true;
 	}
