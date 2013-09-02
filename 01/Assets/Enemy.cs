@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 
-	public float life = 5;
+	public int life = 5;
 	
 	// Use this for initialization
 	void Start () {

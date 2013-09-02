@@ -4,7 +4,7 @@ using System.Collections;
 public class SlingshotBullet : MonoBehaviour {
 	
 	public float speed = 20f;
-	public int life = 3;
+	public int lifeTime = 3;
 	
 	public float GetSpeed() {
 		return speed;
@@ -12,7 +12,7 @@ public class SlingshotBullet : MonoBehaviour {
 
 	// Use this for initialization
 	IEnumerator Start () {
-		yield return new WaitForSeconds(life);
+		yield return new WaitForSeconds(lifeTime);
 		KillSelf();
 	}
 	
@@ -27,7 +27,13 @@ public class SlingshotBullet : MonoBehaviour {
 			Debug.Log("Bullet hit an enemy");
 			//KillSelf();
 			// Destroy(target.gameObject);
-			target.gameObject.GetComponent<Enemy>().life--;
+			Enemy e = target.gameObject.GetComponent<Enemy>();
+			if(e != null) {
+				if(e.life > 0) {
+					e.life--;
+				}
+			}
+//			target.gameObject.GetComponent<Enemy>().life--;
 		}
 	}
 	
