@@ -18,6 +18,7 @@ public class Slingshot : MonoBehaviour {
 	bool _canFire = false;
 	float _lastFireTime = -1;
 	float _fireRepeatTime = 0.75f; // make sure that the slingshot doesn't fire too rapidly
+	Rigidbody _bulletClone;
 	
 	// Use this for initialization
 	void Awake () {
@@ -46,8 +47,9 @@ public class Slingshot : MonoBehaviour {
 	void Update () {
 //		if(collected && _hasAnimations) {
 			if(Input.GetKeyDown(KeyCode.F)) {
+				Debug.Log("Slingshot F key down");
 				_canFire = true;
-				Cock ();
+				StartCoroutine(Cock());
 			} else if(Input.GetKeyUp(KeyCode.F)) {
 				if(_canFire) {
 					if(Time.time - _lastFireTime > _fireRepeatTime) {
@@ -77,7 +79,12 @@ public class Slingshot : MonoBehaviour {
 	}
 
 	IEnumerator Cock() {
+		Debug.Log("cocked = " + cockedAnimation.name);
 		_animation.Play(cockedAnimation.name);
+		float forward = this.transform.position.z;
+		float up = this.transform.position.y + 1f;
+		float right = this.transform.position.x;
+		//_bulletClone = (Rigidbody) Instantiate(bullet, new Vector3(right, up, forward), transform.rotation);
 		_canFire = true;
 		yield return true;
 	}
@@ -88,10 +95,10 @@ public class Slingshot : MonoBehaviour {
 		float forward = this.transform.position.z;
 		float up = this.transform.position.y + 1f;
 		float right = this.transform.position.x;
-		Rigidbody bulletClone = (Rigidbody) Instantiate(bullet, new Vector3(right, up, forward), transform.rotation);
-		float speed = bulletClone.GetComponent<SlingshotBullet>().GetSpeed();
-		bulletClone.velocity = (Vector3.forward * speed);
-		Debug.Log("Slingshot/Fire, clone = " + bulletClone);
+		Rigidbody _bulletClone = (Rigidbody) Instantiate(bullet, new Vector3(right, up, forward), transform.rotation);
+		float speed = _bulletClone.GetComponent<SlingshotBullet>().GetSpeed();
+		_bulletClone.velocity = (Vector3.forward * speed);
+		Debug.Log("Slingshot/Fire, clone = " + _bulletClone);
 
 		_canFire = false;
 		yield return true;
