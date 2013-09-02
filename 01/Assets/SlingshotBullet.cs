@@ -21,6 +21,14 @@ public class SlingshotBullet : MonoBehaviour {
 	
 	}
 	
+	void OnCollisionEnter(Collision target) {
+		Debug.Log("Bullet/OnCollisionEnter, tag = " + target.transform.tag);
+		if(target.transform.tag == "enemy") {
+			Debug.Log("Bullet hit an enemy");
+			KillSelf();
+		}
+	}
+	
 	void KillSelf() {
 		Debug.Log("SlingshotBullet/KillSelf");
 		Destroy(gameObject);	
