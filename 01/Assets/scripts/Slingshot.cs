@@ -4,7 +4,8 @@ using System.Collections;
 public class Slingshot : MonoBehaviour {
 
 	public Rigidbody bullet;
-
+	public GameObject staticBullet;
+	
 	public bool collected = false;
 	public AnimationClip defaultAnimation;
 	public AnimationClip cockedAnimation;
@@ -19,6 +20,7 @@ public class Slingshot : MonoBehaviour {
 	float _lastFireTime = -1;
 	float _fireRepeatTime = 0.75f; // make sure that the slingshot doesn't fire too rapidly
 	Rigidbody _bulletClone;
+	GameObject _staticBulletClone;
 	
 	// Use this for initialization
 	void Awake () {
@@ -81,19 +83,21 @@ public class Slingshot : MonoBehaviour {
 	IEnumerator Cock() {
 		Debug.Log("cocked = " + cockedAnimation.name);
 		_animation.Play(cockedAnimation.name);
-		float forward = this.transform.position.z;
-		float up = this.transform.position.y + 1f;
+		float forward = this.transform.position.z - 1.1f;
+		float up = this.transform.position.y + 1.2f;
 		float right = this.transform.position.x;
-		//_bulletClone = (Rigidbody) Instantiate(bullet, new Vector3(right, up, forward), transform.rotation);
+		_staticBulletClone = (GameObject) Instantiate(staticBullet, new Vector3(right, up, forward), transform.rotation);
 		_canFire = true;
 		yield return true;
 	}
 	
 	IEnumerator Fire() {
+		Destroy(_staticBulletClone);
+
 		_animation.Play(fireAnimation.name);
 		
 		float forward = this.transform.position.z;
-		float up = this.transform.position.y + 1f;
+		float up = this.transform.position.y + 1.2f;
 		float right = this.transform.position.x;
 		Rigidbody _bulletClone = (Rigidbody) Instantiate(bullet, new Vector3(right, up, forward), transform.rotation);
 		float speed = _bulletClone.GetComponent<SlingshotBullet>().GetSpeed();
