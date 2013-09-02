@@ -4,7 +4,7 @@ using System.Collections;
 public class SlingshotBullet : MonoBehaviour {
 	
 	public float speed = 20f;
-	public float life = 10f;
+	public int life = 3;
 	
 	public float GetSpeed() {
 		return speed;
@@ -25,7 +25,9 @@ public class SlingshotBullet : MonoBehaviour {
 		Debug.Log("Bullet/OnCollisionEnter, tag = " + target.transform.tag);
 		if(target.transform.tag == "enemy") {
 			Debug.Log("Bullet hit an enemy");
-			KillSelf();
+			//KillSelf();
+			// Destroy(target.gameObject);
+			target.gameObject.GetComponent<Enemy>().life--;
 		}
 	}
 	
