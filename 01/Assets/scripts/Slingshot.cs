@@ -82,6 +82,9 @@ public class Slingshot : MonoBehaviour {
 
 	IEnumerator Cock() {
 		Debug.Log("cocked = " + cockedAnimation.name);
+		if(_staticBulletClone != null) {
+			Destroy(_staticBulletClone);
+		}
 		_animation.Play(cockedAnimation.name);
 		float forward = this.transform.position.z - 1.1f;
 		float up = this.transform.position.y + 1.2f;

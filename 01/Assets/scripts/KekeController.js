@@ -2,6 +2,7 @@
 // Require a character controller to be attached to the same game object
 @script RequireComponent(CharacterController)
 
+public var life: int = 10;
 
 public var defaultAnimation: AnimationClip;
 
@@ -156,6 +157,7 @@ public var jumpPoseAnimation : AnimationClip;
 	}
 			
 }
+
 
 
 function UpdateSmoothedMovementDirection ()
