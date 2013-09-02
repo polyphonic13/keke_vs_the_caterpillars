@@ -82,8 +82,16 @@ public class Slingshot : MonoBehaviour {
 	IEnumerator Fire() {
 		_animation.Play(fireAnimation.name);
 		
-		Rigidbody bulletClone = (Rigidbody) Instantiate(bullet, transform.position, transform.rotation);
-		bulletClone.velocity = this.transform.TransformDirection (Vector3.forward * _bulletSpeed);
+		float forward = this.transform.position.z;
+		float up = this.transform.position.y + 1f;
+		float right = this.transform.position.x;
+//		Vector3 pos = Vector3(forward, up, right);
+		Rigidbody bulletClone = (Rigidbody) Instantiate(bullet, new Vector3(right, up, forward), transform.rotation);
+//		Rigidbody bulletClone = (Rigidbody) Instantiate(bullet, transform.position, transform.rotation);
+
+//		bulletClone.velocity = this.transform.TransformDirection (Vector3.forward * _bulletSpeed);
+		float speed = bulletClone.GetComponent<SlingshotBullet>().GetSpeed();
+		bulletClone.velocity = (Vector3.forward * speed);
 		Debug.Log("Slingshot/Fire, clone = " + bulletClone);
 
 		_canFire = false;
