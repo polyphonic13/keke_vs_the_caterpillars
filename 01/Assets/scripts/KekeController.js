@@ -536,6 +536,10 @@ function OnControllerColliderHit (hit : ControllerColliderHit )
 //	// Debug.DrawRay(hit.point, hit.normal);
 	if (hit.moveDirection.y > 0.01) 
 		return;
+	Debug.Log("KekeController/OnControllerColliderHit, hit = " + hit.transform.name);
+	var obj = hit.collider.attachedRigidbody;
+	if(obj == null || obj.isKinematic)
+		return;
 }
 
 function GetSpeed () {
