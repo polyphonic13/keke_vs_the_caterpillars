@@ -534,12 +534,21 @@ function Update() {
 function OnControllerColliderHit (hit : ControllerColliderHit )
 {
 //	// Debug.DrawRay(hit.point, hit.normal);
+/*
 	if (hit.moveDirection.y > 0.01) 
 		return;
-	Debug.Log("KekeController/OnControllerColliderHit, hit = " + hit.transform.name);
+*/
+	if(hit.transform.name != "Terrain" ) {
+		Debug.Log("KekeController/OnControllerColliderHit, hit = " + hit.transform.name + " tag = " + hit.transform.tag);
+	}
+	/*
 	var obj = hit.collider.attachedRigidbody;
-	if(obj == null || obj.isKinematic)
+	if(obj == null || obj.isKinematic) {
 		return;
+*/
+	if(hit.transform.tag == "weapon") {
+		Debug.Log("Keke came across a weapon: " + hit.transform);
+	}
 }
 
 function GetSpeed () {
