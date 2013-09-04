@@ -5,6 +5,7 @@
 public var life: int = 10;
 
 public var slingshot: GameObject;
+public var weapon: GameObject;
 public var defaultAnimation: AnimationClip;
 
 public var crouchAnimation: AnimationClip;
@@ -111,7 +112,6 @@ private var lastGroundedTime = 0.0;
 
 private var isControllable = true;
 
-private var _weapon = null;
 private var _hasWeapon = false;
 private var _canPunch = false;//true; 
 private var _isPunching = false;
@@ -566,14 +566,14 @@ function OnControllerColliderHit (hit : ControllerColliderHit )
 //		var handPosition = hand_r.FindChild("hand_R_mountpoint");
 //		Debug.Log("handPosition = " + handPosition + ", hand_r = " + hand_r);
 
-		var right = hand_r.position.x + 1;
+		var right = hand_r.position.x;
 		var up = hand_r.position.y + 1.2;
-		var forward = hand_r.position.z + 1;
-		_weapon = Instantiate(slingshot, Vector3(right, up, forward), hand_r.rotation);
-		
-//		_weapon = Instantiate(slingshot, hand_r.position, hand_r.rotation);
-		//_weapon = hit.transform.gameObject.GetComponent("Slingshot");
-		//Debug.Log("Slingshot = " + _weapon);
+		var forward = hand_r.position.z + 3;
+		weapon = Instantiate(slingshot, Vector3(right, up, forward), hand_r.rotation);
+		weapon.transform.parent = hand_r.transform;
+//		weapon = Instantiate(slingshot, hand_r.position, hand_r.rotation);
+		//weapon = hit.transform.gameObject.GetComponent("Slingshot");
+		//Debug.Log("Slingshot = " + weapon);
 	}
 }
 
