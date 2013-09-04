@@ -24,6 +24,7 @@ public class Slingshot : MonoBehaviour {
 	
 	// Use this for initialization
 	void Awake () {
+		Debug.Log("Slingshot/Awake, this position = " + this.transform.position );// + ", parent = " + this.transform.parent.transform.position);
 		_animation = GetComponent<Animation>();
 		if(!defaultAnimation) {
 			_animation = null;
@@ -36,7 +37,7 @@ public class Slingshot : MonoBehaviour {
 		}
 		if(_animation) {
 			_hasAnimations = true;
-			Debug.Log("Slingshot/Awake, _hasAnimations = " + _hasAnimations + ", _animation = " + _animation + ", _animation[cocked] = " + cockedAnimation.name);
+			// Debug.Log("Slingshot/Awake, _hasAnimations = " + _hasAnimations + ", _animation = " + _animation + ", _animation[cocked] = " + cockedAnimation.name);
 			//_animation.Play(defaultAnimation.name); 
 			_animation.Play("ss_default");
 			_animation[cockedAnimation.name].speed = cockedAnimationSpeed;
@@ -99,9 +100,9 @@ public class Slingshot : MonoBehaviour {
 
 		_animation.Play(fireAnimation.name);
 		
-		float forward = this.transform.position.z;
-		float up = this.transform.position.y + 1.2f;
 		float right = this.transform.position.x;
+		float up = this.transform.position.y + 1.2f;
+		float forward = this.transform.position.z;
 		Rigidbody _bulletClone = (Rigidbody) Instantiate(bullet, new Vector3(right, up, forward), transform.rotation);
 		float speed = _bulletClone.GetComponent<SlingshotBullet>().GetSpeed();
 		_bulletClone.velocity = (Vector3.forward * speed);
