@@ -555,7 +555,7 @@ function OnControllerColliderHit (hit : ControllerColliderHit )
 		var hand_r = this.transform.FindChild("keke").FindChild("Armature").FindChild("master_control").FindChild("hips_main").FindChild("hips").FindChild("spine1").FindChild("spine2").FindChild("collar_bone_R").FindChild("upper_arm_R").FindChild("lower_arm_R").FindChild("hand_R_0");
 		// hit.transform.parent = this.transform.gameObject.transform;
 		// hit.transform.parent = this.transform.FindChild("hand_R").transform;
-		hit.transform.parent = hand_r.transform;
+		hit.transform.parent.transform.parent = hand_r.transform;
 	}
 }
 
