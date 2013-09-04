@@ -87,9 +87,9 @@ public class Slingshot : MonoBehaviour {
 			Destroy(_staticBulletClone);
 		}
 		_animation.Play(cockedAnimation.name);
-		float right = this.transform.parent.transform.position.x;
-		float up = this.transform.parent.transform.position.y + 1.2f;
-		float forward = this.transform.parent.transform.position.z;
+		float right = this.transform.position.x;
+		float up = this.transform.position.y + 1.2f;
+		float forward = this.transform.position.z;
 		_staticBulletClone = (GameObject) Instantiate(staticBullet, new Vector3(right, up, forward), this.transform.parent.transform.rotation);
 		_canFire = true;
 		yield return true;

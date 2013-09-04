@@ -566,9 +566,9 @@ function OnControllerColliderHit (hit : ControllerColliderHit )
 //		var handPosition = hand_r.FindChild("hand_R_mountpoint");
 //		Debug.Log("handPosition = " + handPosition + ", hand_r = " + hand_r);
 
-		var right = hand_r.position.x;
-		var up = hand_r.position.y + 1.2;
-		var forward = hand_r.position.z + 3;
+		var right = hand_r.position.x + 0.5;
+		var up = hand_r.position.y + 0.5;
+		var forward = hand_r.position.z - 1;
 		weapon = Instantiate(slingshot, Vector3(right, up, forward), hand_r.rotation);
 		weapon.transform.parent = hand_r.transform;
 //		weapon = Instantiate(slingshot, hand_r.position, hand_r.rotation);
