@@ -548,6 +548,9 @@ function OnControllerColliderHit (hit : ControllerColliderHit )
 */
 	if(hit.transform.tag == "weapon") {
 		Debug.Log("Keke came across a weapon: " + hit.transform);
+		//var go = hit.transform.gameObject;
+		hit.transform.parent = this.transform.gameObject.transform;
+
 	}
 }
 
