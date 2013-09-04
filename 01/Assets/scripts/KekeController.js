@@ -555,8 +555,8 @@ function OnControllerColliderHit (hit : ControllerColliderHit )
 */
 	if(hit.transform.tag == "weapon") {
 		Debug.Log("Keke came across a weapon: " + hit.transform);
-		//var hand_r = this.transform.FindChild("keke").FindChild("Armature").FindChild("master_control").FindChild("hips_main").FindChild("hips").FindChild("spine1").FindChild("spine2").FindChild("collar_bone_R").FindChild("upper_arm_R").FindChild("lower_arm_R").FindChild("hand_R_0").FindChild("hand_R_mountpoint");
-		var hand_r = this.transform.FindChild("hand_R").FindChild("hand_R_mountpoint");
+		var hand_r = this.transform.FindChild("keke").FindChild("Armature").FindChild("master_control").FindChild("hips_main").FindChild("hips").FindChild("spine1").FindChild("spine2").FindChild("collar_bone_R").FindChild("upper_arm_R").FindChild("lower_arm_R").FindChild("hand_R_0").FindChild("hand_R_mountpoint");
+		//var hand_r = this.transform.FindChild("hand_R").FindChild("hand_R_mountpoint");
 		Debug.Log("hand_r = " + hand_r);
 		// hit.transform.parent = this.transform.gameObject.transform;
 		// hit.transform.parent = this.transform.FindChild("hand_R").transform;
@@ -566,9 +566,9 @@ function OnControllerColliderHit (hit : ControllerColliderHit )
 //		var handPosition = hand_r.FindChild("hand_R_mountpoint");
 //		Debug.Log("handPosition = " + handPosition + ", hand_r = " + hand_r);
 
-		var right = hand_r.position.x + 0.5;
+		var right = hand_r.position.x;// + 0.5;
 		var up = hand_r.position.y + 0.5;
-		var forward = hand_r.position.z - 1;
+		var forward = hand_r.position.z;// - 1;
 		weapon = Instantiate(slingshot, Vector3(right, up, forward), hand_r.rotation);
 		weapon.transform.parent = hand_r.transform;
 //		weapon = Instantiate(slingshot, hand_r.position, hand_r.rotation);
