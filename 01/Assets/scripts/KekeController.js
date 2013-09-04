@@ -110,7 +110,9 @@ private var lastGroundedTime = 0.0;
 
 private var isControllable = true;
 
-private var _canPunch = true; 
+private var _weapon = null;
+private var _hasWeapon = false;
+private var _canPunch = false;//true; 
 private var _isPunching = false;
 
 private var _isCrouching = false;
@@ -556,6 +558,9 @@ function OnControllerColliderHit (hit : ControllerColliderHit )
 		// hit.transform.parent = this.transform.gameObject.transform;
 		// hit.transform.parent = this.transform.FindChild("hand_R").transform;
 		hit.transform.parent.transform.parent = hand_r.transform;
+		_hasWeapon = true;
+		//_weapon = hit.transform.gameObject.GetComponent("Slingshot");
+		//Debug.Log("Slingshot = " + _weapon);
 	}
 }
 

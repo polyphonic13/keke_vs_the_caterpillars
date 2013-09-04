@@ -80,7 +80,7 @@ public class Slingshot : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Cock() {
+	public IEnumerator Cock() {
 		Debug.Log("cocked = " + cockedAnimation.name);
 		if(_staticBulletClone != null) {
 			Destroy(_staticBulletClone);
@@ -94,7 +94,7 @@ public class Slingshot : MonoBehaviour {
 		yield return true;
 	}
 	
-	IEnumerator Fire() {
+	public IEnumerator Fire() {
 		Destroy(_staticBulletClone);
 
 		_animation.Play(fireAnimation.name);
