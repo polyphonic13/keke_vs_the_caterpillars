@@ -123,10 +123,10 @@ private var _crouchRepeatTime = 1;
 
 function Awake ()
 {
-	Debug.Log("tag = " + this.transform.tag);
+	//Debug.Log("tag = " + this.transform.tag);
 	//var hand_r = this.transform.FindChild("hand_R");
 	var hand_r = this.transform.FindChild("keke").FindChild("Armature").FindChild("master_control").FindChild("hips_main").FindChild("hips").FindChild("spine1").FindChild("spine2").FindChild("collar_bone_R").FindChild("upper_arm_R").FindChild("lower_arm_R").FindChild("hand_R_0");
-	Debug.Log("hand_r = " + hand_r);
+	//Debug.Log("hand_r = " + hand_r);
 	moveDirection = transform.TransformDirection(Vector3.forward);
 	
 	_animation = GetComponent(Animation);

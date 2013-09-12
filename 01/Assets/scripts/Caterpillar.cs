@@ -11,6 +11,20 @@ public class Caterpillar : Enemy {
 	private bool _hasAnimations = false;
 	private Animation _animation;
 	// Use this for initialization
+	
+	public void HandleAnimations() {
+		if(_hasAnimations) {
+			_animation.Play(walkAnimationLower.name);
+			var attackProximity = ProximityCheck();
+			if(attackProximity) {
+				_animation.Play(attackAnimationUpper.name);
+			} else {
+				_animation.Play(walkAnimationUpper.name);
+			}
+		}
+		
+	}
+	
 	void Awake () {
 		Init();
 		_animation = GetComponent<Animation>();
@@ -36,17 +50,8 @@ public class Caterpillar : Enemy {
 	// Update is called once per frame
 	void Update () {
 		if(LifeCheck()) {
-			if(_hasAnimations) {
-				_animation.Play(walkAnimationLower.name);
-				var attackProximity = ProximityCheck();
-				if(attackProximity) {
-					Debug.Log("attackProximity = " + attackProximity + ", playing: " + attackAnimationUpper.name);
-					_animation.Play(attackAnimationUpper.name);
-				} else {
-					Debug.Log("attackProximity = " + attackProximity + ", playing: " + walkAnimationUpper.name);
-					_animation.Play(walkAnimationUpper.name);
-				}
-			}
+			HandleAnimations();
+			FindPlayer();
 		}
 	}
 }

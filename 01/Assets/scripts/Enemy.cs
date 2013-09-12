@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour {
 	
 	bool attackProximity = false;
 	
+	private float moveSpeed = 0;
+	
 	public void Init() {
 		this.gameObject.tag = "enemy";
 	}
@@ -19,6 +21,13 @@ public class Enemy : MonoBehaviour {
 		} else {
 			return true;
 		}
+	}
+	
+	public Vector3 FindPlayer() {
+		var player = GameObject.Find("keke");
+		var playerPos = player.transform.position;
+		Debug.Log("Enemy/FindPlayer, playerPos = " + playerPos);
+		return playerPos;	
 	}
 	
 	public bool ProximityCheck() {
