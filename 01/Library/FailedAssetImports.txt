@@ -1,1 +1,0 @@
-Assets/models/enemies/caterpillars/caterpillar05.blend
