@@ -8,6 +8,8 @@ public class Caterpillar : Enemy {
 	public AnimationClip walkAnimationUpper;
 	public AnimationClip attackAnimationUpper;
 	
+	public float walkSpeed = 1;
+	
 	private bool _hasAnimations = false;
 	private Animation _animation;
 	// Use this for initialization
@@ -37,14 +39,17 @@ public class Caterpillar : Enemy {
 	}
 
 	void InitAnimations() {
-		_animation[attackAnimationUpper.name].wrapMode = WrapMode.Once;
-		_animation[attackAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
-		_animation[attackAnimationUpper.name].layer = 10;
+		_animation[walkAnimationLower.name].speed = walkSpeed;
 
+		_animation[walkAnimationUpper.name].speed = walkSpeed;
 		_animation[walkAnimationUpper.name].wrapMode = WrapMode.Once;
 		_animation[walkAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
 		_animation[walkAnimationUpper.name].layer = 10;
 		
+		_animation[attackAnimationUpper.name].wrapMode = WrapMode.Once;
+		_animation[attackAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
+		_animation[attackAnimationUpper.name].layer = 10;
+
 	}
 	
 	// Update is called once per frame
