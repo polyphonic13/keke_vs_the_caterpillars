@@ -11,10 +11,13 @@ public class Enemy : MonoBehaviour {
 		this.gameObject.tag = "enemy";
 	}
 
-	public void LifeCheck() {
+	public bool LifeCheck() {
 		if(life <= 0) {
 			Debug.Log("killing: " + this.gameObject.name);
 			Destroy(this.gameObject);
+			return false;
+		} else {
+			return true;
 		}
 	}
 	

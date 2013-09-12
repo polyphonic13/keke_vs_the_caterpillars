@@ -35,18 +35,18 @@ public class Caterpillar : Enemy {
 	
 	// Update is called once per frame
 	void Update () {
-		LifeCheck();
-		if(_hasAnimations) {
-			_animation.Play(walkAnimationLower.name);
-			var attackProximity = ProximityCheck();
-			if(attackProximity) {
-				Debug.Log("attackProximity = " + attackProximity + ", playing: " + attackAnimationUpper.name);
-				_animation.Play(attackAnimationUpper.name);
-			} else {
-				Debug.Log("attackProximity = " + attackProximity + ", playing: " + walkAnimationUpper.name);
-				_animation.Play(walkAnimationUpper.name);
+		if(LifeCheck()) {
+			if(_hasAnimations) {
+				_animation.Play(walkAnimationLower.name);
+				var attackProximity = ProximityCheck();
+				if(attackProximity) {
+					Debug.Log("attackProximity = " + attackProximity + ", playing: " + attackAnimationUpper.name);
+					_animation.Play(attackAnimationUpper.name);
+				} else {
+					Debug.Log("attackProximity = " + attackProximity + ", playing: " + walkAnimationUpper.name);
+					_animation.Play(walkAnimationUpper.name);
+				}
 			}
-
 		}
 	}
 }
