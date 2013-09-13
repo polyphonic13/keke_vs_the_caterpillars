@@ -14,6 +14,15 @@ public class Caterpillar : Enemy {
 	private Animation _animation;
 	// Use this for initialization
 	
+	public void UpdateDirection() {
+		//var targetPos = transform.position - player.transform.position;
+		var targetPos = player.transform.position - transform.position;
+		targetPos.y = 0;
+		var newRotation = Quaternion.LookRotation(targetPos);
+		transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 8);
+//		this.transform.LookAt();	
+	}
+	
 	public void InitAnimations() {
 		_animation = GetComponent<Animation>();
 
@@ -51,7 +60,7 @@ public class Caterpillar : Enemy {
 	}
 	
 	public void HandleMovement() {
-		var playerPos = FindPlayer();
+		var playerPos = GetPlayerPosition();
 		//Debug.Log("Caterpillar/HandleMovement, playerPos = " + playerPos);
 	}
 	
@@ -63,6 +72,7 @@ public class Caterpillar : Enemy {
 	// Update is called once per frame
 	void Update () {
 		if(LifeCheck()) {
+			UpdateDirection();
 			HandleAnimations();
 			HandleMovement();
 		}

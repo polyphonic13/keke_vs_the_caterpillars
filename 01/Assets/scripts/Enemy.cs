@@ -4,6 +4,7 @@ using System.Collections;
 public class Enemy : MonoBehaviour {
 
 	public int life = 5;
+	public GameObject player; 
 	
 	float attackProximity = 5f;
 	bool isInAttackProximity = false;
@@ -12,6 +13,7 @@ public class Enemy : MonoBehaviour {
 	
 	public void Init() {
 		this.gameObject.tag = "enemy";
+		player = GameObject.Find("keke");
 	}
 
 	public bool LifeCheck() {
@@ -24,12 +26,12 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 	
-	public Vector3 FindPlayer() {
-		return GameObject.Find("keke").transform.position;	
+	public Vector3 GetPlayerPosition() {
+		return player.transform.position;	
 	}
 	
 	public bool ProximityCheck() {
-		var playerPos = FindPlayer();
+		var playerPos = GetPlayerPosition();
 		var thisPos = this.transform.position;
 		var distanceFromPlayer = Vector3.Distance(playerPos, thisPos);
 		if(distanceFromPlayer < attackProximity) {
@@ -43,7 +45,6 @@ public class Enemy : MonoBehaviour {
 	
 	// Use this for initialization
 	void Awake () {
-	
 	}
 	
 	// Update is called once per frame
