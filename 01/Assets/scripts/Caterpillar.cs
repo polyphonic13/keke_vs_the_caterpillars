@@ -16,11 +16,11 @@ public class Caterpillar : Enemy {
 	
 	public void UpdateDirection() {
 		//var targetPos = transform.position - player.transform.position;
-		var targetPos = player.transform.position - transform.position;
+		var targetPos = player.transform.position - transform.position		;
 		targetPos.y = 0;
 		var newRotation = Quaternion.LookRotation(targetPos);
 		transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 8);
-//		this.transform.LookAt();	
+		//this.transform.LookAt();	
 	}
 	
 	public void InitAnimations() {
