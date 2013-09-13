@@ -5,7 +5,8 @@ public class Enemy : MonoBehaviour {
 
 	public int life = 5;
 	
-	bool attackProximity = false;
+	float attackProximity = 5f;
+	bool isInAttackProximity = false;
 	
 	private float moveSpeed = 0;
 	
@@ -30,8 +31,14 @@ public class Enemy : MonoBehaviour {
 	public bool ProximityCheck() {
 		var playerPos = FindPlayer();
 		var thisPos = this.transform.position;
-		Debug.Log("Enement/ProximityCheck, thisPos = " + thisPos + ", playerPos = " + playerPos);
-		return attackProximity;
+		var distanceFromPlayer = Vector3.Distance(playerPos, thisPos);
+		if(distanceFromPlayer < attackProximity) {
+			isInAttackProximity = true;
+		} else {
+			isInAttackProximity = false;
+		}
+		// Debug.Log("Enement/ProximityCheck, thisPos = " + thisPos + ", playerPos = " + playerPos + ", distanceFromPlayer = " + distanceFromPlayer + ", isInAttackProximity = " + isInAttackProximity);
+		return isInAttackProximity;
 	}
 	
 	// Use this for initialization

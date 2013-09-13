@@ -41,6 +41,8 @@ public class Caterpillar : Enemy {
 			_animation.Play(walkAnimationLower.name);
 
 			if(ProximityCheck()) {
+				Debug.Log("should be playing attack animation");
+				//_animation.Play(attackAnimationUpper.name);
 				_animation.Play(attackAnimationUpper.name);
 			} else {
 				_animation.Play(walkAnimationUpper.name);
