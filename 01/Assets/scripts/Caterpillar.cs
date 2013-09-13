@@ -14,49 +14,55 @@ public class Caterpillar : Enemy {
 	private Animation _animation;
 	// Use this for initialization
 	
-	public void HandleAnimations() {
-		if(_hasAnimations) {
-			_animation.Play(walkAnimationLower.name);
-			var attackProximity = ProximityCheck();
-			if(attackProximity) {
-				_animation.Play(attackAnimationUpper.name);
-			} else {
-				_animation.Play(walkAnimationUpper.name);
-			}
-		}
-		
-	}
-	
-	void Awake () {
-		Init();
+	public void InitAnimations() {
 		_animation = GetComponent<Animation>();
 
 		if(defaultAnimation != null && walkAnimationLower != null && walkAnimationUpper != null && attackAnimationUpper != null) {
 			_hasAnimations = true;
 			_animation.Play(defaultAnimation.name);
-			InitAnimations();
+
+			_animation[walkAnimationLower.name].speed = walkSpeed;
+	
+			_animation[walkAnimationUpper.name].speed = walkSpeed;
+			_animation[walkAnimationUpper.name].wrapMode = WrapMode.Once;
+			_animation[walkAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
+			_animation[walkAnimationUpper.name].layer = 10;
+			
+			_animation[attackAnimationUpper.name].wrapMode = WrapMode.Once;
+			_animation[attackAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
+			_animation[attackAnimationUpper.name].layer = 10;
+			
+		}
+
+	}
+
+	public void HandleAnimations() {
+		if(_hasAnimations) {
+			_animation.Play(walkAnimationLower.name);
+
+			if(ProximityCheck()) {
+				_animation.Play(attackAnimationUpper.name);
+			} else {
+				_animation.Play(walkAnimationUpper.name);
+			}
 		}
 	}
-
-	void InitAnimations() {
-		_animation[walkAnimationLower.name].speed = walkSpeed;
-
-		_animation[walkAnimationUpper.name].speed = walkSpeed;
-		_animation[walkAnimationUpper.name].wrapMode = WrapMode.Once;
-		_animation[walkAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
-		_animation[walkAnimationUpper.name].layer = 10;
-		
-		_animation[attackAnimationUpper.name].wrapMode = WrapMode.Once;
-		_animation[attackAnimationUpper.name].blendMode = AnimationBlendMode.Additive;
-		_animation[attackAnimationUpper.name].layer = 10;
-
+	
+	public void HandleMovement() {
+		var playerPos = FindPlayer();
+		//Debug.Log("Caterpillar/HandleMovement, playerPos = " + playerPos);
 	}
 	
+	void Awake () {
+		Init();
+		InitAnimations();
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if(LifeCheck()) {
 			HandleAnimations();
-			FindPlayer();
+			HandleMovement();
 		}
 	}
 }

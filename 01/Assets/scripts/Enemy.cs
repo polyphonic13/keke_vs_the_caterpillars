@@ -24,13 +24,13 @@ public class Enemy : MonoBehaviour {
 	}
 	
 	public Vector3 FindPlayer() {
-		var player = GameObject.Find("keke");
-		var playerPos = player.transform.position;
-		Debug.Log("Enemy/FindPlayer, playerPos = " + playerPos);
-		return playerPos;	
+		return GameObject.Find("keke").transform.position;	
 	}
 	
 	public bool ProximityCheck() {
+		var playerPos = FindPlayer();
+		var thisPos = this.transform.position;
+		Debug.Log("Enement/ProximityCheck, thisPos = " + thisPos + ", playerPos = " + playerPos);
 		return attackProximity;
 	}
 	
@@ -41,6 +41,5 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		LifeCheck();
 	}
 }
